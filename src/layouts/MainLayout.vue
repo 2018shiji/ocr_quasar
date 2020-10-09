@@ -48,56 +48,61 @@
 </template>
 
 <script>
+import axios from 'axios'
+import eventCenter from './../router/eventCenter.js'
 export default {
   name: 'MainLayout',
   data () {
     return {
       leftDrawerOpen: false,
       selected: '',
+      inputParamsUrl: '',
+      toEmit: {
+        fieldUrl: '',
+        resultUrl: '',
+        inputParams: []
+      },
       simple: [
         {
-          label: 'Satisfied customers0',
+          label: '用户相关',
           children: [
-            {
-              label: 'Good food0',
-              children: [
-                { handler: (node) => this.handleClick(node), label: 'quality ingredients0', url: 'role' },
-                { handler: (node) => this.handleClick(node), label: 'Good recipe0', url: 'test' }
-              ]
-            },
-            {
-              label: 'Good service'
-            }
+            { handler: (node) => this.handleClick(node), label: '注册', url: 'role', inputParamsUrl: '/api/getRegisterInputParams', fieldUrl: '/api/getRegisterResultFormat', resultUrl: '/api/getRegisterResult' },
+            { handler: (node) => this.handleClick(node), label: '终端登录', url: 'role', inputParamsUrl: '/api/getLoginInputParams', fieldUrl: '/api/getLoginResultFormat', resultUrl: '/api/getLoginResult' },
+            { handler: (node) => this.handleClick(node), label: '终端注销', url: 'role', inputParamsUrl: '/api/getLogoutInputParams', fieldUrl: '/api/getLogoutResultFormat', resultUrl: '/api/getLogoutResult' },
+            { handler: (node) => this.handleClick(node), label: '注销', url: 'role', inputParamsUrl: '/api/getRegisterOutInputParams', fieldUrl: '/api/getRegisterOutResultFormat', resultUrl: '/api/getRegisterOutResult' },
+            { handler: (node) => this.handleClick(node), label: '获取角色用户', url: 'role', inputParamsUrl: '/api/getRoleUserInputParams', fieldUrl: '/api/getRoleUserResultFormat', resultUrl: '/api/getRoleUserResult' },
+            { handler: (node) => this.handleClick(node), label: '获取承包商', url: 'role', inputParamsUrl: '/api/getContractorInputParams', fieldUrl: '/api/getContractorResultFormat', resultUrl: '/api/getContractorResult' }
           ]
         },
         {
-          label: 'Satisfied customers1',
+          label: '船箱查询',
           children: [
-            {
-              label: 'Good food1',
-              children: [
-                { handler: (node) => this.handleClick(node), label: 'quality ingredients1', url: 'role' },
-                { handler: (node) => this.handleClick(node), label: 'Good recipe1', url: 'test' }
-              ]
-            },
-            {
-              label: 'Good service1'
-            }
+            { handler: (node) => this.handleClick(node), label: '查询激活船期', url: 'vesselBox', inputParamsUrl: '/api/getVesselScheduleInputParams' },
+            { handler: (node) => this.handleClick(node), label: '查询船结构', url: 'multiVesselBox', inputParamsUrl: '/api/getVesselStructInputParams', fieldUrl: '/api/getVesselStructResultFormat', resultUrl: '/api/getVesselStructResult' },
+            { handler: (node) => this.handleClick(node), label: '查询箱位信息', url: 'vesselBox', inputParamsUrl: '/api/getBoxPositionInputParams' },
+            { handler: (node) => this.handleClick(node), label: '据箱号查询箱', url: 'vesselBox', inputParamsUrl: '/api/getBoxByNumInputParams' },
+            { handler: (node) => this.handleClick(node), label: '据子箱查询箱', url: 'vesselBox', inputParamsUrl: '/api/getQueryMainBoxInputParams' },
+            { handler: (node) => this.handleClick(node), label: '查询泊位信息', url: 'vesselBox', inputParamsUrl: '/api/getBerthMsgInputParams' }
           ]
         },
         {
-          label: 'Satisfied customers2',
+          label: '装卸船相关',
           children: [
-            {
-              label: 'Good food2',
-              children: [
-                { handler: (node) => this.handleClick(node), label: 'quality ingredients2', url: 'role' },
-                { handler: (node) => this.handleClick(node), label: 'Good recipe2', url: 'test' }
-              ]
-            },
-            {
-              label: 'Good service2'
-            }
+            { handler: (node) => this.handleClick(node), label: '装卸船作业初始化', url: 'work', inputParamsUrl: '/api/getContractorInputParams' },
+            { handler: (node) => this.handleClick(node), label: '装卸船作业退出', url: 'work', inputParamsUrl: '/api/getRoleUserInputParams' },
+            { handler: (node) => this.handleClick(node), label: '装船信息查询', url: 'work', inputParamsUrl: '/api/getQueryShipUpInputParams' },
+            { handler: (node) => this.handleClick(node), label: '确认装船', url: 'work', inputParamsUrl: '/api/getShipmentUpRegInputParams' },
+            { handler: (node) => this.handleClick(node), label: '确认卸船', url: 'work', inputParamsUrl: '/api/getShipmentDownRegInputParams' },
+            { handler: (node) => this.handleClick(node), label: '船箱信息更新', url: 'work', inputParamsUrl: '/api/getUpdateDamageBoxInputParams' }
+          ]
+        },
+        {
+          label: '指令查询',
+          children: [
+            { handler: (node) => this.handleClick(node), label: '装船箱指令', url: 'order', inputParamsUrl: '/api/getFindBoxOrderInputParams' },
+            { handler: (node) => this.handleClick(node), label: '卸船箱指令', url: 'order', inputParamsUrl: '/api/getUnloadOrderInputParams' },
+            { handler: (node) => this.handleClick(node), label: '岸桥作业指令', url: 'order', inputParamsUrl: '/api/getWorkOrderListInputParams' },
+            { handler: (node) => this.handleClick(node), label: '卸船指令清单', url: 'order', inputParamsUrl: '/api/getUnloadOrderListInputParams' }
           ]
         }
       ]
@@ -106,7 +111,18 @@ export default {
   methods: {
     handleClick (node) {
       console.log(`node: ${JSON.stringify(node)}`)
+      this.getInputParams(node.inputParamsUrl, node.fieldUrl, node.resultUrl)
       this.$router.push(node.url)
+    },
+    async getInputParams (inputParamsUrl, fieldUrl, resultUrl) {
+      console.log('go to getInputParams methods')
+      this.toEmit.fieldUrl = fieldUrl
+      this.toEmit.resultUrl = resultUrl
+      const response = await axios.get(inputParamsUrl)
+      console.log(response.data)
+      console.log('getInputParams response(data length):' + response.data.length)
+      this.toEmit.inputParams = response.data
+      eventCenter.$emit('init-inputParams', this.toEmit)
     }
   }
 }
