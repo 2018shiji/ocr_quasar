@@ -1,6 +1,6 @@
 <template>
-    <q-page class="flex flex-lg-center">
-      <div class="rightArea">
+  <q-page class="flex flex-lg-center">
+    <div class="rightArea">
       <div class="rightTextArea">
         <div class="row">
           <q-input class="col-4" v-for="item in inputParams" :key="item.label" v-model="item.value" filled :hint="item.label"></q-input>
@@ -26,14 +26,15 @@
           <q-input class="col-6" color="primary" label="ErrorMsg" v-model="tableResult.returnInfo.errorMsg"></q-input>
         </div>
       </div>
-      </div>
-    </q-page>
+    </div>
+  </q-page>
 </template>
 
 <script>
 import axios from 'axios'
 import eventCenter from '../router/eventCenter'
 export default {
+  name: 'OrderResult',
   data: function () {
     return {
       fieldUrl: '',
@@ -57,6 +58,8 @@ export default {
   },
   methods: {
     onSubmit () {
+      this.tableFields = []
+      this.tableResult = { dataTable: [], returnInfo: { errorCode: '1', errorMsg: 'failed' } }
       alert(JSON.stringify(this.inputParams))
       this.getTableFields(this.fieldUrl)
       console.log('---------format output---------' + '\n' + this.inputParams[0].key + this.inputParams[0].label + this.inputParams[0].value)
