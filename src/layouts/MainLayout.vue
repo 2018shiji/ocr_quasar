@@ -100,9 +100,10 @@ export default {
           label: '指令查询',
           children: [
             { handler: (node) => this.handleClick(node), label: '装船箱指令', url: 'order', inputParamsUrl: '/api/getFindBoxOrderInputParams', fieldUrl: '/api/getFindBoxOrderResultFormat', resultUrl: '/api/getFindBoxOrderResult' },
-            { handler: (node) => this.handleClick(node), label: '卸船箱指令', url: 'order', inputParamsUrl: '/api/getUnloadOrderInputParams', fieldUrl: '/api/getUnloadOrderResultFormat', resultUrl: '/api/getUnloadOrderResult' },
+            { handler: (node) => this.handleClick(node), label: '据箱号索卸船箱指令', url: 'order', inputParamsUrl: '/api/getUnloadOrderInputParams', fieldUrl: '/api/getUnloadOrderResultFormat', resultUrl: '/api/getUnloadOrderResult' },
             { handler: (node) => this.handleClick(node), label: '岸桥作业指令', url: 'order', inputParamsUrl: '/api/getWorkOrderListInputParams', fieldUrl: '/api/getWorkOrderListResultFormat', resultUrl: '/api/getWorkOrderListResult' },
-            { handler: (node) => this.handleClick(node), label: '卸船指令清单', url: 'order', inputParamsUrl: '/api/getUnloadOrderListInputParams', fieldUrl: '/api/getUnloadOrderListResultFormat', resultUrl: '/api/getUnloadOrderListResult' }
+            { handler: (node) => this.handleClick(node), label: '卸船指令清单', url: 'order', inputParamsUrl: '/api/getUnloadOrderListInputParams', fieldUrl: '/api/getUnloadOrderListResultFormat', resultUrl: '/api/getUnloadOrderListResult' },
+            { handler: (node) => this.handleClick(node), label: '作业量统计', url: 'order', inputParamsUrl: '/api/getShipWorkLoadInputParams', fieldUrl: '/api/getShipWorkLoadResultFormat', resultUrl: '/api/getShipWorkLoadResult' }
           ]
         }
       ]

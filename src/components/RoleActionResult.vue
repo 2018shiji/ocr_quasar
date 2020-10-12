@@ -62,14 +62,14 @@ export default {
       this.tableResult = { dataTable: [], returnInfo: { errorCode: '1', errorMsg: 'failed' } }
       alert(JSON.stringify(this.inputParams))
       this.getTableFields(this.fieldUrl)
-      console.log('---------format output---------' + '\n' + this.inputParams.key + this.inputParams.label + this.inputParams.value)
+      console.log('---------format output---------' + '\n' + this.inputParams[0].key + this.inputParams[0].label + this.inputParams[0].value)
       let inputString = '{'
       for (let i = 0; i < this.inputParams.length; i++) {
         // eslint-disable-next-line eqeqeq
         if (i != this.inputParams.length - 1) {
-          inputString += '"' + this.inputParams.key + '"' + ':' + '"' + this.inputParams.value + '", '
+          inputString += '"' + this.inputParams[i].key + '"' + ':' + '"' + this.inputParams[i].value + '", '
         } else {
-          inputString += '"' + this.inputParams.key + '"' + ':' + '"' + this.inputParams.value + '"'
+          inputString += '"' + this.inputParams[i].key + '"' + ':' + '"' + this.inputParams[i].value + '"'
         }
       }
       inputString += '}'
