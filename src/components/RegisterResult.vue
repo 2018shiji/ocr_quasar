@@ -1,6 +1,6 @@
 <template>
-    <q-page class="flex flex-lg-center">
-      <div class="rightArea">
+  <q-page class="flex flex-lg-center">
+    <div class="rightArea">
       <div class="rightTextArea">
         <div class="row">
           <q-input class="col-4" v-for="item in inputParams" :key="item.label" v-model="item.value" filled :hint="item.label"></q-input>
@@ -26,19 +26,19 @@
           <q-input class="col-6" color="primary" label="ErrorMsg" v-model="tableResult.returnInfo.errorMsg"></q-input>
         </div>
       </div>
-      </div>
-    </q-page>
+    </div>
+  </q-page>
 </template>
 
 <script>
 import axios from 'axios'
 import eventCenter from '../router/eventCenter'
 export default {
+  name: 'RegisterResult',
   data: function () {
     return {
       fieldUrl: '',
       resultUrl: '',
-
       inputParams: [],
       tableFields: [],
       tableResult: { dataTable: [], returnInfo: { errorCode: '1', errorMsg: 'failed' } }
@@ -55,14 +55,6 @@ export default {
         this.fieldUrl = inputInit.fieldUrl
         this.resultUrl = inputInit.resultUrl
       }
-      if ((inputInit.fieldUrl === '/api/getLoginResultFormat') || (inputInit.fieldUrl === '/api/getLogoutResultFormat')) {
-        if (this.fieldUrl !== inputInit.fieldUrl) {
-          this.inputParams = inputInit.inputParams
-          this.fieldUrl = inputInit.fieldUrl
-          this.resultUrl = inputInit.resultUrl
-        }
-      }
-      console.log('listen event of inputParams initial: ' + this.inputParams + this.inputParams.length)
     })
   },
   methods: {

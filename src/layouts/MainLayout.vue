@@ -42,7 +42,9 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <keep-alive>
+        <router-view />
+      </keep-alive>
     </q-page-container>
   </q-layout>
 </template>
@@ -66,7 +68,7 @@ export default {
         {
           label: '用户相关',
           children: [
-            { handler: (node) => this.handleClick(node), label: '注册', url: 'roleAction', inputParamsUrl: '/api/getRegisterInputParams', fieldUrl: '/api/getRegisterResultFormat', resultUrl: '/api/getRegisterResult' },
+            { handler: (node) => this.handleClick(node), label: '注册', url: 'register', inputParamsUrl: '/api/getRegisterInputParams', fieldUrl: '/api/getRegisterResultFormat', resultUrl: '/api/getRegisterResult' },
             { handler: (node) => this.handleClick(node), label: '终端登录', url: 'roleAction', inputParamsUrl: '/api/getLoginInputParams', fieldUrl: '/api/getLoginResultFormat', resultUrl: '/api/getLoginResult' },
             { handler: (node) => this.handleClick(node), label: '终端注销', url: 'roleAction', inputParamsUrl: '/api/getLogoutInputParams', fieldUrl: '/api/getLogoutResultFormat', resultUrl: '/api/getLogoutResult' },
             { handler: (node) => this.handleClick(node), label: '注销', url: 'roleAction', inputParamsUrl: '/api/getRegisterOutInputParams', fieldUrl: '/api/getRegisterOutResultFormat', resultUrl: '/api/getRegisterOutResult' },
@@ -128,3 +130,6 @@ export default {
   }
 }
 </script>
+// 页面缓存：https://www.cnblogs.com/smart-girl/p/10496769.html
+// 页面缓存：https://www.jb51.net/article/173595.htm
+// 仿造RegisterResult.vue和RoleActionResult进行代码编写

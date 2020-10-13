@@ -6,6 +6,7 @@ const routes = [
     children: [
       { path: 'index', component: () => import('pages/Index.vue') },
       { path: 'role', component: () => import('components/RoleResult.vue') },
+      { path: 'register', component: () => import('components/RegisterResult.vue') },
       { path: 'roleAction', component: () => import('components/RoleActionResult.vue') },
       { path: 'vesselBox', component: () => import('components/VelBoxResult.vue') },
       { path: 'workProcess', component: () => import('components/WorkProcessResult.vue') },
