@@ -50,9 +50,18 @@ export default {
   mounted () {
     console.log('Single result mounted begin')
     eventCenter.$on('init-inputParams', inputInit => {
-      this.fieldUrl = inputInit.fieldUrl
-      this.resultUrl = inputInit.resultUrl
-      this.inputParams = inputInit.inputParams
+      if (this.fieldUrl === '') {
+        this.inputParams = inputInit.inputParams
+        this.fieldUrl = inputInit.fieldUrl
+        this.resultUrl = inputInit.resultUrl
+      }
+      if ((inputInit.fieldUrl === '/api/getRoleUserResultFormat') || (inputInit.fieldUrl === '/api/getContractorResultFormat')) {
+        if (this.fieldUrl !== inputInit.fieldUrl) {
+          this.inputParams = inputInit.inputParams
+          this.fieldUrl = inputInit.fieldUrl
+          this.resultUrl = inputInit.resultUrl
+        }
+      }
       console.log('listen event of inputParams initial: ' + this.inputParams + this.inputParams.length)
     })
   },
