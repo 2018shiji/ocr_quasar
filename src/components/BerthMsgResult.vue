@@ -1,6 +1,6 @@
 <template>
-    <q-page class="flex flex-lg-center">
-      <div class="rightArea">
+  <q-page class="flex flex-lg-center">
+    <div class="rightArea">
       <div class="rightTextArea">
         <div class="row">
           <q-input class="col-4" v-for="item in inputParams" :key="item.label" v-model="item.value" filled :hint="item.label"></q-input>
@@ -26,14 +26,15 @@
           <q-input class="col-6" color="primary" label="ErrorMsg" v-model="tableResult.returnInfo.errorMsg"></q-input>
         </div>
       </div>
-      </div>
-    </q-page>
+    </div>
+  </q-page>
 </template>
 
 <script>
 import axios from 'axios'
 import eventCenter from '../router/eventCenter'
 export default {
+  name: 'BerthMsg',
   data: function () {
     return {
       fieldUrl: '',
@@ -47,20 +48,12 @@ export default {
     }
   },
   mounted () {
-    // eslint-disable-next-line no-undef
     console.log('Single result mounted begin')
     eventCenter.$on('init-inputParams', inputInit => {
       if (this.fieldUrl === '') {
-        this.inputParams = inputInit.inputParams
         this.fieldUrl = inputInit.fieldUrl
         this.resultUrl = inputInit.resultUrl
-      }
-      if ((inputInit.fieldUrl === '/api/getLoginResultFormat') || (inputInit.fieldUrl === '/api/getLogoutResultFormat') || (inputInit.fieldUrl === '/api/getRegisterResultFormat') || (inputInit.fieldUrl === '/api/getRegisterOutResultFormat')) {
-        if (this.fieldUrl !== inputInit.fieldUrl) {
-          this.inputParams = inputInit.inputParams
-          this.fieldUrl = inputInit.fieldUrl
-          this.resultUrl = inputInit.resultUrl
-        }
+        this.inputParams = inputInit.inputParams
       }
       console.log('listen event of inputParams initial: ' + this.inputParams + this.inputParams.length)
     })

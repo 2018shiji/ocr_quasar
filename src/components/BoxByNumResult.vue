@@ -69,31 +69,16 @@ export default {
       inputParams: [],
       tableFields: [],
       tableResult: { dataTable: [], returnInfo: { errorCode: '1', errorMsg: 'failed' } }
-      // tableFields:
-      // [
-      //   { key: 'result1', value: [{ name: 'containerNo', label: 'containerNo', field: 'containerNo', sortable: 'true' }, { name: 'containerId', label: 'containerId', field: 'containerId' }] },
-      //   { key: 'result2', value: [{ name: 'containerHeight', label: 'containerHeight', field: 'containerHeight', sortable: 'true' }, { name: 'containerWeight', label: 'containerWeight', field: 'containerWeight' }] },
-      //   { key: 'result3', value: [{ name: 'containerSize', label: 'containerSize', field: 'containerSize' }] }
-      // ],
-      // tableResult: {
-      //   dataTable: [
-      //     { key: 'result1', value: [{ containerNo: '111', containerId: '222' }] },
-      //     { key: 'result2', value: [{ containerHeight: '333', containerWeight: '444' }] },
-      //     { key: 'result3', value: [{ containerSize: '555' }] }
-      //   ],
-      //   returnInfo: {
-      //     errorCode: '1',
-      //     errorMsg: 'failed'
-      //   }
-      // }
     }
   },
   mounted () {
     console.log('Multi result mounted begin')
     eventCenter.$on('init-inputParams', inputInit => {
-      this.fieldUrl = inputInit.fieldUrl
-      this.resultUrl = inputInit.resultUrl
-      this.inputParams = inputInit.inputParams
+      if (this.fieldUrl === '') {
+        this.fieldUrl = inputInit.fieldUrl
+        this.resultUrl = inputInit.resultUrl
+        this.inputParams = inputInit.inputParams
+      }
       console.log('MultiResult listen event of inputParams initial: ' + this.inputParams + this.inputParams.length)
     })
   },
@@ -136,17 +121,15 @@ export default {
         })
     },
     formatBoxTableFields (data) {
-      this.tableFields.push({ key: 'vesselBay', value: data.vesselBay })
-      this.tableFields.push({ key: 'vesselStack', value: data.vesselStack })
-      this.tableFields.push({ key: 'vesselCellAll', value: data.vesselCellAll })
-      this.tableFields.push({ key: 'vesselHatchCover', value: data.vesselHatchCover })
+      this.tableFields.push({ key: 'containers', value: data.containers })
+      this.tableFields.push({ key: 'bindInfo', value: data.bindInfo })
+      this.tableFields.push({ key: 'imdgInfo', value: data.imdgInfo })
       console.log(this.tableFields)
     },
     fulfillBoxTableResult (data) {
-      this.tableResult.dataTable.push({ key: 'vesselBay', value: data.vesselBay })
-      this.tableResult.dataTable.push({ key: 'vesselStack', value: data.vesselStack })
-      this.tableResult.dataTable.push({ key: 'vesselCellAll', value: data.vesselCellAll })
-      this.tableResult.dataTable.push({ key: 'vesselHatchCover', value: data.vesselHatchCover })
+      this.tableResult.dataTable.push({ key: 'containers', value: data.containers })
+      this.tableResult.dataTable.push({ key: 'bindInfo', value: data.bindInfo })
+      this.tableResult.dataTable.push({ key: 'imdgInfo', value: data.imdgInfo })
       this.tableResult.returnInfo = data.returnInfo
       console.log(this.tableResult)
     }

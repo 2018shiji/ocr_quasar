@@ -79,12 +79,12 @@ export default {
         {
           label: '船箱查询',
           children: [
-            { handler: (node) => this.handleClick(node), label: '查询激活船期', url: 'vesselBox', inputParamsUrl: '/api/getVesselScheduleInputParams', fieldUrl: '/api/getVesselScheduleResultFormat', resultUrl: '/api/getVesselScheduleResult' },
+            { handler: (node) => this.handleClick(node), label: '查询激活船期', url: 'vesselSchedule', inputParamsUrl: '/api/getVesselScheduleInputParams', fieldUrl: '/api/getVesselScheduleResultFormat', resultUrl: '/api/getVesselScheduleResult' },
             { handler: (node) => this.handleClick(node), label: '查询船结构', url: 'vesselStruct', inputParamsUrl: '/api/getVesselStructInputParams', fieldUrl: '/api/getVesselStructResultFormat', resultUrl: '/api/getVesselStructResult' },
             { handler: (node) => this.handleClick(node), label: '查询箱位信息', url: 'vesselBox', inputParamsUrl: '/api/getBoxPositionInputParams', fieldUrl: '/api/getBoxPositionResultFormat', resultUrl: '/api/getBoxPositionResult' },
             { handler: (node) => this.handleClick(node), label: '据箱号查询箱', url: 'boxByNum', inputParamsUrl: '/api/getBoxByNumInputParams', fieldUrl: '/api/getBoxByNumResultFormat', resultUrl: '/api/getBoxByNumResult' },
             { handler: (node) => this.handleClick(node), label: '据子箱查询箱', url: 'vesselBox', inputParamsUrl: '/api/getQueryMainBoxInputParams', fieldUrl: '/api/getQueryMainBoxResultFormat', resultUrl: '/api/getQueryMainBoxResult' },
-            { handler: (node) => this.handleClick(node), label: '查询泊位信息', url: 'vesselBox', inputParamsUrl: '/api/getBerthMsgInputParams', fieldUrl: '/api/getBerthMsgResultFormat', resultUrl: '/api/getBerthMsgResult' }
+            { handler: (node) => this.handleClick(node), label: '查询泊位信息', url: 'berthMessage', inputParamsUrl: '/api/getBerthMsgInputParams', fieldUrl: '/api/getBerthMsgResultFormat', resultUrl: '/api/getBerthMsgResult' }
           ]
         },
         {
@@ -101,8 +101,8 @@ export default {
         {
           label: '指令查询',
           children: [
-            { handler: (node) => this.handleClick(node), label: '装船箱指令', url: 'order', inputParamsUrl: '/api/getFindBoxOrderInputParams', fieldUrl: '/api/getFindBoxOrderResultFormat', resultUrl: '/api/getFindBoxOrderResult' },
-            { handler: (node) => this.handleClick(node), label: '据箱号索卸船箱指令', url: 'order', inputParamsUrl: '/api/getUnloadOrderInputParams', fieldUrl: '/api/getUnloadOrderResultFormat', resultUrl: '/api/getUnloadOrderResult' },
+            { handler: (node) => this.handleClick(node), label: '据箱号索装船箱指令', url: 'loadOrder', inputParamsUrl: '/api/getFindBoxOrderInputParams', fieldUrl: '/api/getFindBoxOrderResultFormat', resultUrl: '/api/getFindBoxOrderResult' },
+            { handler: (node) => this.handleClick(node), label: '据箱号索卸船箱指令', url: 'unloadOrder', inputParamsUrl: '/api/getUnloadOrderInputParams', fieldUrl: '/api/getUnloadOrderResultFormat', resultUrl: '/api/getUnloadOrderResult' },
             { handler: (node) => this.handleClick(node), label: '岸桥作业指令', url: 'order', inputParamsUrl: '/api/getWorkOrderListInputParams', fieldUrl: '/api/getWorkOrderListResultFormat', resultUrl: '/api/getWorkOrderListResult' },
             { handler: (node) => this.handleClick(node), label: '卸船指令清单', url: 'order', inputParamsUrl: '/api/getUnloadOrderListInputParams', fieldUrl: '/api/getUnloadOrderListResultFormat', resultUrl: '/api/getUnloadOrderListResult' },
             { handler: (node) => this.handleClick(node), label: '作业量统计', url: 'order', inputParamsUrl: '/api/getShipWorkLoadInputParams', fieldUrl: '/api/getShipWorkLoadResultFormat', resultUrl: '/api/getShipWorkLoadResult' }

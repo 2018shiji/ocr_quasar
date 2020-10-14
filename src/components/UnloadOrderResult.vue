@@ -1,6 +1,6 @@
 <template>
-    <q-page class="flex flex-lg-center">
-      <div class="rightArea">
+  <q-page class="flex flex-lg-center">
+    <div class="rightArea">
       <div class="rightTextArea">
         <div class="row">
           <q-input class="col-4" v-for="item in inputParams" :key="item.label" v-model="item.value" filled :hint="item.label"></q-input>
@@ -14,10 +14,34 @@
       </div>
 
       <div class="rightTable">
-        <q-table
-          :columns="tableFields"
-          :data="tableResult.dataTable">
-        </q-table>
+        <div class="q-pa-md">
+          <div class="q-gutter-y-md" style="max-width: 1000px">
+            <q-card>
+              <q-tabs
+                v-model="panel"
+                dense
+                class="text-grey"
+                active-color="primary"
+                indicator-color="primary"
+                narrow-indicator
+              >
+                <div v-for="item in tableFields" :key="item.key">
+                  <q-tab :name="item.key" :label="item.key" />
+                </div>
+              </q-tabs>
+              <q-tab-panels v-model="panel" v-for="(item, index) in tableFields " :key="item.key" animated>
+                <q-tab-panel :name="item.key">
+                  <div>{{item.key}}{{"   index   " + index}}</div>
+                  <q-table
+                    :columns="item.value"
+                    :data="tableResult.dataTable[index].value"
+                  >
+                  </q-table>
+                </q-tab-panel>
+              </q-tab-panels>
+            </q-card>
+          </div>
+        </div>
       </div>
 
       <div class="rightBottom">
@@ -26,47 +50,42 @@
           <q-input class="col-6" color="primary" label="ErrorMsg" v-model="tableResult.returnInfo.errorMsg"></q-input>
         </div>
       </div>
-      </div>
-    </q-page>
+
+    </div>
+  </q-page>
 </template>
 
 <script>
 import axios from 'axios'
 import eventCenter from '../router/eventCenter'
 export default {
-  data: function () {
+  name: 'UnloadOrder',
+  data () {
     return {
+      panel: 'mails',
       fieldUrl: '',
       resultUrl: '',
 
       inputParams: [],
       tableFields: [],
       tableResult: { dataTable: [], returnInfo: { errorCode: '1', errorMsg: 'failed' } }
-      // tableFields: [{ name: 'containerNo', label: 'containerNo', field: 'containerNo', sortable: 'true' }, { name: 'containerId', label: 'containerId', field: 'containerId' }],
-      // tableResult: { dataTable: [{ containerNo: '111', containerId: '222' }, { containerNo: '333', containerId: '444' }], returnInfo: { errorCode: '1', errorMsg: 'failed' } }
     }
   },
   mounted () {
-    // eslint-disable-next-line no-undef
-    console.log('Single result mounted begin')
+    console.log('Multi result mounted begin')
     eventCenter.$on('init-inputParams', inputInit => {
       if (this.fieldUrl === '') {
-        this.inputParams = inputInit.inputParams
         this.fieldUrl = inputInit.fieldUrl
         this.resultUrl = inputInit.resultUrl
+        this.inputParams = inputInit.inputParams
       }
-      if ((inputInit.fieldUrl === '/api/getLoginResultFormat') || (inputInit.fieldUrl === '/api/getLogoutResultFormat') || (inputInit.fieldUrl === '/api/getRegisterResultFormat') || (inputInit.fieldUrl === '/api/getRegisterOutResultFormat')) {
-        if (this.fieldUrl !== inputInit.fieldUrl) {
-          this.inputParams = inputInit.inputParams
-          this.fieldUrl = inputInit.fieldUrl
-          this.resultUrl = inputInit.resultUrl
-        }
-      }
-      console.log('listen event of inputParams initial: ' + this.inputParams + this.inputParams.length)
+      console.log('MultiResult listen event of inputParams initial: ' + this.inputParams + this.inputParams.length)
     })
   },
   methods: {
     onSubmit () {
+      console.log(this.tableFields)
+      console.log(this.tableResult)
       this.tableFields = []
       this.tableResult = { dataTable: [], returnInfo: { errorCode: '1', errorMsg: 'failed' } }
       alert(JSON.stringify(this.inputParams))
@@ -74,8 +93,7 @@ export default {
       console.log('---------format output---------' + '\n' + this.inputParams[0].key + this.inputParams[0].label + this.inputParams[0].value)
       let inputString = '{'
       for (let i = 0; i < this.inputParams.length; i++) {
-        // eslint-disable-next-line eqeqeq
-        if (i != this.inputParams.length - 1) {
+        if (i !== this.inputParams.length - 1) {
           inputString += '"' + this.inputParams[i].key + '"' + ':' + '"' + this.inputParams[i].value + '", '
         } else {
           inputString += '"' + this.inputParams[i].key + '"' + ':' + '"' + this.inputParams[i].value + '"'
@@ -85,28 +103,37 @@ export default {
       const inputResult = JSON.parse(inputString)
       this.getTableResults(this.resultUrl, inputResult)
     },
-    onReset () {
-      console.log('reset')
-    },
     getTableFields (url) {
       axios
         .get(url)
         .then(response => {
           console.log(response.data)
-          console.log('here is getTableFields(response data length):' + response.data.length)
-          this.tableFields = response.data
+          console.log('here is MultiResult getTableFields')
+          this.formatBoxTableFields(response.data)
         })
     },
     getTableResults (url, param) {
       axios
         .post(url, param)
         .then(response => {
-          this.tableResult = response.data
-          console.log(this.tableResult)
+          console.log(response.data)
+          this.fulfillBoxTableResult(response.data)
         })
+    },
+    formatBoxTableFields (data) {
+      this.tableFields.push({ key: 'containers', value: data.containers })
+      this.tableFields.push({ key: 'bindInfo', value: data.bindInfo })
+      this.tableFields.push({ key: 'imdgInfo', value: data.imdgInfo })
+      console.log(this.tableFields)
+    },
+    fulfillBoxTableResult (data) {
+      this.tableResult.dataTable.push({ key: 'containers', value: data.containers })
+      this.tableResult.dataTable.push({ key: 'bindInfo', value: data.bindInfo })
+      this.tableResult.dataTable.push({ key: 'imdgInfo', value: data.imdgInfo })
+      this.tableResult.returnInfo = data.returnInfo
+      console.log(this.tableResult)
     }
   }
-
 }
 </script>
 
