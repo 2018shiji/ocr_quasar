@@ -39,7 +39,6 @@ export default {
     return {
       fieldUrl: '',
       resultUrl: '',
-
       inputParams: [],
       tableFields: [],
       tableResult: { dataTable: [], returnInfo: { errorCode: '1', errorMsg: 'failed' } }
